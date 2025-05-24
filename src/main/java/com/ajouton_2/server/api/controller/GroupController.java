@@ -22,20 +22,23 @@ public class GroupController {
     private final GroupMemberService groupMemberService;
 
     @PostMapping
-    public ResponseEntity<GroupInviteCodeResponse> createGroup(@RequestBody GroupAddRequest request) {
-        return ResponseEntity.ok(groupService.createGroup(request));
+    public ResponseEntity<GroupInviteCodeResponse> createGroup(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody GroupAddRequest request) {
+        return ResponseEntity.ok(groupService.createGroup(request, authorizationHeader));
     }
 
     @PostMapping("/signin")
     public ResponseEntity<Void> signInGroup(
+            @RequestHeader("Authorization") String authorizationHeader,
             @RequestBody GroupSignInRequest request) {
-        groupMemberService.signInToGroup(request);
+        groupMemberService.signInToGroup(request, authorizationHeader);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<GroupListResponse>> getGroups(){
-        return ResponseEntity.ok(groupService.getGroups());
+    public ResponseEntity<List<GroupListResponse>> getGroups(@RequestHeader("Authorization") String authorizationHeader){
+        return ResponseEntity.ok(groupService.getGroups(authorizationHeader));
     }
 
 //    @GetMapping("/{groupId}")

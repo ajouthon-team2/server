@@ -20,20 +20,17 @@ public class GroupMemberService {
     private final MemberService memberService;
     private final GroupMemberJpaRepository groupMemberRepository;
 
-    public void signInToGroup(GroupSignInRequest request) {
-        // 초대 코드로 그룹 조회
+    @Transactional
+    public void signInToGroup(GroupSignInRequest request, String authorizationHeader) {
         Group group = groupRepository.findByInviteCode(request.getInviteCode())
                 .orElseThrow(() -> new IllegalArgumentException("Group Not Found"));
 
-        // 사용자 조회
-        Member member = memberService.getLoginedMemnber();
+        Member member = memberService.getLoginedMember(authorizationHeader);
 
-        // 이미 가입된 경우 방지
         if (groupMemberRepository.existsByGroupAndMember(group, member)) {
             throw new IllegalStateException("이미 가입된 그룹입니다.");
         }
 
-        // 그룹 멤버 생성
         GroupMember groupMember = GroupMember.builder()
                 .group(group)
                 .member(member)
@@ -42,4 +39,5 @@ public class GroupMemberService {
 
         groupMemberRepository.save(groupMember);
     }
+
 }

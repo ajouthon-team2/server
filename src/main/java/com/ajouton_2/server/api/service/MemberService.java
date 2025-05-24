@@ -33,11 +33,9 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public Member getLoginedMemnber() {
-        String email = jwtUtil.getEmailFromLogin();
-        Member member = memberRepository.findByEmail(email)
+    public Member getLoginedMember(String authorizationHeader) {
+        String email = jwtUtil.getEmailFromLogin(authorizationHeader);
+        return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Member Not Found"));
-
-        return member;
     }
 }

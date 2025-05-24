@@ -3,6 +3,7 @@ package com.ajouton_2.server.common;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -59,16 +60,27 @@ public class JwtUtil {
         return claims.getSubject();
     }
 
-    public String getEmailFromLogin() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof String email) {
-            return email;
-        } else if (principal instanceof UserDetails userDetails) {
-            return userDetails.getUsername();
+    public String getEmailFromLogin(String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Authorization 헤더가 유효하지 않습니다.");
         }
 
-        throw new IllegalStateException("Unknown");
-    }
+        // 1. "Bearer " 제거 → JWT만 추출
+        String token = authorizationHeader.substring(7);
 
+        // 2. JWT 파싱 및 검증
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            // 3. subject(email) 반환
+            return claims.getSubject();
+
+        } catch (JwtException e) {
+            throw new IllegalArgumentException("유효하지 않은 JWT 토큰입니다.");
+        }
+    }
 }
