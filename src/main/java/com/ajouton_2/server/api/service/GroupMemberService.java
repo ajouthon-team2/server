@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GroupMemberService {
 
     private final GroupJpaRepository groupRepository;
-    private final MemberJpaRepository memberRepository;
+    private final MemberService memberService;
     private final GroupMemberJpaRepository groupMemberRepository;
 
     public void signInToGroup(GroupSignInRequest request) {
@@ -25,21 +25,18 @@ public class GroupMemberService {
         Group group = groupRepository.findByInviteCode(request.getInviteCode())
                 .orElseThrow(() -> new IllegalArgumentException("Group Not Found"));
 
-        //member get
-
         // 사용자 조회
-//        Member member = memberRepository.findById(currentMemberId)
-//                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+        Member member = memberService.getLoginedMemnber();
 
-//        // 이미 가입된 경우 방지
-//        if (groupMemberRepository.existsByGroupAndMember(group, member)) {
-//            throw new IllegalStateException("이미 가입된 그룹입니다.");
-//        }
+        // 이미 가입된 경우 방지
+        if (groupMemberRepository.existsByGroupAndMember(group, member)) {
+            throw new IllegalStateException("이미 가입된 그룹입니다.");
+        }
 
         // 그룹 멤버 생성
         GroupMember groupMember = GroupMember.builder()
                 .group(group)
-//                .member(member)
+                .member(member)
                 .role(GroupMember.Role.MEMBER)
                 .build();
 

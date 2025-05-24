@@ -33,10 +33,10 @@ public class GroupController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<GroupListResponse>> getGroups(){
-//        return ResponseEntity.ok(groupService.getGroups());
-//    }
+    @GetMapping
+    public ResponseEntity<List<GroupListResponse>> getGroups(){
+        return ResponseEntity.ok(groupService.getGroups());
+    }
 
 //    @GetMapping("/{groupId}")
 //    public ResponseEntity<GroupDetailResponse> getGroup(){}
