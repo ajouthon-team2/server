@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 public class GroupAddRequest {
     private String name;
-    Category category; // SPORTS, STUDY, CLUB
+    private Category category; // SPORTS, STUDY, CLUB
 }
