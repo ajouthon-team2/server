@@ -3,14 +3,13 @@ package com.ajouton_2.server.common;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class JwtUtil {
 
@@ -67,7 +66,7 @@ public class JwtUtil {
 
         // 1. "Bearer " 제거 → JWT만 추출
         String token = authorizationHeader.substring(7);
-
+        log.info("JWT 토큰에서 추출된 사용자 이메일: {}", token);
         // 2. JWT 파싱 및 검증
         try {
             Claims claims = Jwts.parserBuilder()
@@ -77,9 +76,12 @@ public class JwtUtil {
                     .getBody();
 
             // 3. subject(email) 반환
-            return claims.getSubject();
+            String email = claims.getSubject();
+            log.info("JWT 토큰에서 추출된 사용자 이메일: {}", email);
+            return email;
 
         } catch (JwtException e) {
+            log.error("JWT 토큰 파싱 실패: {}", e.getMessage());
             throw new IllegalArgumentException("유효하지 않은 JWT 토큰입니다.");
         }
     }
