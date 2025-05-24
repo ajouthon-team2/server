@@ -17,8 +17,8 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping
-    public ResponseEntity<List<PostResponse>>
+//    @GetMapping
+//    public ResponseEntity<List<PostResponse>>
 
     @PostMapping
     public ResponseEntity<List<PresignedUrlResponse>> createPost(
