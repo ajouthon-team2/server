@@ -2,12 +2,16 @@ package com.ajouton_2.server.api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.ajouton_2.server.domain.member.MemberJpaRepository;
+import com.ajouton_2.server.api.dto.SignUpRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import com.ajouton_2.server.domain.member.Member;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
     public void signUp(SignUpRequest request) {
