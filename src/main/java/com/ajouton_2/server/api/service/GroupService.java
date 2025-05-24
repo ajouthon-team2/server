@@ -25,6 +25,7 @@ public class GroupService {
     private final GroupJpaRepository groupRepository;
     private final MemberJpaRepository memberRepository;
     private final GroupMemberJpaRepository groupMemberRepository;
+    private final MemberService memberService;
 
     @Transactional
     public GroupInviteCodeResponse createGroup(GroupAddRequest request) {
@@ -72,17 +73,9 @@ public class GroupService {
                 build();
     }
 
-    public List<GroupListResponse> getGroups() {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-
-        return groupMemberRepository.findByMember(member).stream()
-                .map(gm -> new GroupListResponse(
-                        gm.getGroup().getGroupId(),
-                        gm.getGroup().getName(),
-                        gm.getGroup().getCategory().name(),
-                        gm.getRole().name()
-                ))
-                .toList();
-    }
+//    public List<GroupListResponse> getGroups() {
+//        Member member = memberService.getLoginedMemnber();
+//
+//
+//    }
 }

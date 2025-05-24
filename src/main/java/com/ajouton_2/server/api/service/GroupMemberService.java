@@ -28,13 +28,13 @@ public class GroupMemberService {
         //member get
 
         // 사용자 조회
-        Member member = memberRepository.findById(currentMemberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+//        Member member = memberRepository.findById(currentMemberId)
+//                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 
-        // 이미 가입된 경우 방지
-        if (groupMemberRepository.existsByGroupAndMember(group, member)) {
-            throw new IllegalStateException("이미 가입된 그룹입니다.");
-        }
+//        // 이미 가입된 경우 방지
+//        if (groupMemberRepository.existsByGroupAndMember(group, member)) {
+//            throw new IllegalStateException("이미 가입된 그룹입니다.");
+//        }
 
         // 그룹 멤버 생성
         GroupMember groupMember = GroupMember.builder()
