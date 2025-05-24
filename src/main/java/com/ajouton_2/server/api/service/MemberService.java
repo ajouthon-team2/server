@@ -1,5 +1,6 @@
 package com.ajouton_2.server.api.service;
 
+import com.ajouton_2.server.common.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.ajouton_2.server.domain.member.MemberJpaRepository;
@@ -13,6 +14,7 @@ public class MemberService {
 
     private final MemberJpaRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public void signUp(SignUpRequest request) {
         if (memberRepository.existsByEmail(request.getEmail())) {
@@ -29,5 +31,13 @@ public class MemberService {
                 .build();
 
         memberRepository.save(member);
+    }
+
+    public Member getLoginedMemnber() {
+        String email = jwtUtil.getEmailFromLogin();
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Member Not Found"));
+
+        return member;
     }
 }

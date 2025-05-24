@@ -3,6 +3,8 @@ package com.ajouton_2.server.common;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -56,4 +58,17 @@ public class JwtUtil {
                 .getBody();
         return claims.getSubject();
     }
+
+    public String getEmailFromLogin() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof String email) {
+            return email;
+        } else if (principal instanceof UserDetails userDetails) {
+            return userDetails.getUsername();
+        }
+
+        throw new IllegalStateException("Unknown");
+    }
+
 }

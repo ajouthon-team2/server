@@ -1,4 +1,4 @@
-package com.ajouton_2.server.api.controller.member;
+package com.ajouton_2.server.api.controller;
 
 import com.ajouton_2.server.api.dto.group.GroupAddRequest;
 import com.ajouton_2.server.api.dto.group.GroupInviteCodeResponse;
@@ -33,13 +33,13 @@ public class GroupController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<GroupListResponse>> getGroups(){
-        return ResponseEntity.ok(groupService.getGroups());
-    }
+//    @GetMapping
+//    public ResponseEntity<List<GroupListResponse>> getGroups(){
+//        return ResponseEntity.ok(groupService.getGroups());
+//    }
 
-    @GetMapping("/{groupId}")
-    public ResponseEntity<GroupDetailResponse> getGroup(){}
+//    @GetMapping("/{groupId}")
+//    public ResponseEntity<GroupDetailResponse> getGroup(){}
 
     @GetMapping("/{groupId}/code")
     public ResponseEntity<GroupInviteCodeResponse>getGroupInviteCode(@PathVariable Long groupId){
