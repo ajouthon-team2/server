@@ -3,7 +3,9 @@ package com.ajouton_2.server.api.controller;
 import com.ajouton_2.server.api.dto.group.GroupAddRequest;
 import com.ajouton_2.server.api.dto.group.GroupInviteCodeResponse;
 import com.ajouton_2.server.api.dto.group.GroupListResponse;
+import com.ajouton_2.server.api.dto.groupmember.GroupMemberResponse;
 import com.ajouton_2.server.api.dto.groupmember.GroupSignInRequest;
+import com.ajouton_2.server.api.dto.post.PostResponse;
 import com.ajouton_2.server.api.service.GroupMemberService;
 import com.ajouton_2.server.api.service.GroupService;
 import lombok.RequiredArgsConstructor;
@@ -41,9 +43,18 @@ public class GroupController {
         return ResponseEntity.ok(groupService.getGroups(authorizationHeader));
     }
 
+    @GetMapping("/{groupId}")
+    public ResponseEntity<List<PostResponse>> getGroup(@PathVariable Long groupId){
+        return ResponseEntity.ok(groupService.getGroup(groupId));
+    }
 
     @GetMapping("/{groupId}/code")
     public ResponseEntity<GroupInviteCodeResponse>getGroupInviteCode(@PathVariable Long groupId){
         return ResponseEntity.status(HttpStatus.OK).body(groupService.getInviteCode(groupId));
+    }
+
+    @GetMapping("/{groupId}/members")
+    public ResponseEntity<List<GroupMemberResponse>> getGroupMembers(@PathVariable Long groupId) {
+        return ResponseEntity.ok(groupService.getGroupMembers(groupId));
     }
 }

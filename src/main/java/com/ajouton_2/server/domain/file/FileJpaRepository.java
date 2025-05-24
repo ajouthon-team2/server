@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FileJpaRepository extends JpaRepository<File, Long> {
 
-    List<File> findAllByPostPostId(Long postId);
-
     void deleteAllByPost(Post post);
+
+    List<File> findAllByPost(Post post);
 }

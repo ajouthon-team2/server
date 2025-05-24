@@ -10,6 +10,6 @@ public record PostResponse(
         String title,
         String content,
         List<String> fileUrls,
-        List<Long> participantIds
+        List<String> participantNames,
+        String createdAt // ISO-8601 포맷 문자열로 반환 (e.g., "2024-05-24T15:22:01")
 ) {}
-

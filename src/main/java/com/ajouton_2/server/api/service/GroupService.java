@@ -3,19 +3,24 @@ package com.ajouton_2.server.api.service;
 import com.ajouton_2.server.api.dto.group.GroupAddRequest;
 import com.ajouton_2.server.api.dto.group.GroupInviteCodeResponse;
 import com.ajouton_2.server.api.dto.group.GroupListResponse;
+import com.ajouton_2.server.api.dto.groupmember.GroupMemberResponse;
+import com.ajouton_2.server.api.dto.post.PostResponse;
+import com.ajouton_2.server.domain.file.FileJpaRepository;
+import com.ajouton_2.server.domain.file.File;
 import com.ajouton_2.server.domain.group.Group;
 import com.ajouton_2.server.domain.group.GroupJpaRepository;
 import com.ajouton_2.server.domain.groupmember.GroupMember;
 import com.ajouton_2.server.domain.groupmember.GroupMemberJpaRepository;
 import com.ajouton_2.server.domain.member.Member;
-import com.ajouton_2.server.domain.member.MemberJpaRepository;
+import com.ajouton_2.server.domain.participant.ParticipantJpaRepository;
+import com.ajouton_2.server.domain.post.Post;
+import com.ajouton_2.server.domain.post.PostJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +30,9 @@ public class GroupService {
     private final GroupJpaRepository groupRepository;
     private final GroupMemberJpaRepository groupMemberRepository;
     private final MemberService memberService;
+    private final PostJpaRepository postRepository;
+    private final FileJpaRepository fileRepository;
+    private final ParticipantJpaRepository participantRepository;
 
     @Transactional
     public GroupInviteCodeResponse createGroup(GroupAddRequest request, String authorizationHeader) {
@@ -84,6 +92,49 @@ public class GroupService {
                         gm.getGroup().getGroupId(),
                         gm.getGroup().getName(),
                         gm.getGroup().getCategory().name(),
+                        gm.getRole().name()
+                ))
+                .toList();
+    }
+
+    public List<PostResponse> getGroup(Long groupId) {
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("Group Not Found"));
+
+        List<Post> posts = postRepository.findAllByGroup(group);
+
+        return posts.stream().map(post -> {
+            List<String> fileUrls = fileRepository.findAllByPost(post).stream()
+                    .map(File::getFileUrl)
+                    .toList();
+
+            List<String> participantNames = participantRepository.findAllByPost(post).stream()
+                    .map(p -> p.getGroupMember().getMember().getName())
+                    .toList();
+
+            return PostResponse.builder()
+                    .postId(post.getPostId())
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .fileUrls(fileUrls)
+                    .participantNames(participantNames)
+                    .createdAt(post.getCreatedAt().toString()) // LocalDateTime → ISO 문자열
+                    .build();
+        }).toList();
+    }
+
+    public List<GroupMemberResponse> getGroupMembers(Long groupId) {
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("Group Not Found"));
+
+        List<GroupMember> groupMembers = groupMemberRepository.findByGroup(group);
+
+        return groupMembers.stream()
+                .map(gm -> new GroupMemberResponse(
+                        gm.getMember().getMemberId(),
+                        gm.getMember().getName(),
+                        gm.getMember().getEmail(),
                         gm.getRole().name()
                 ))
                 .toList();

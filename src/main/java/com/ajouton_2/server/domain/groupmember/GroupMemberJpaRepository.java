@@ -10,4 +10,6 @@ public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, Lon
     boolean existsByGroupAndMember(Group group, Member member);
 
     List<GroupMember> findByMemberMemberId(Long memberId);
+
+    List<GroupMember> findByGroup(Group group);
 }
