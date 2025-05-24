@@ -17,6 +17,7 @@ public class PostController {
 
     private final PostService postService;
 
+
     @PostMapping
     public ResponseEntity<List<PresignedUrlResponse>> createPost(
             @PathVariable Long groupId,
