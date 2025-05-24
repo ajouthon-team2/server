@@ -23,7 +23,6 @@ import java.util.Optional;
 public class GroupService {
 
     private final GroupJpaRepository groupRepository;
-    private final MemberJpaRepository memberRepository;
     private final GroupMemberJpaRepository groupMemberRepository;
     private final MemberService memberService;
 
@@ -39,12 +38,12 @@ public class GroupService {
 
         groupRepository.save(group);
 
-    // member찾기
+        Member member = memberService.getLoginedMemnber();
 
         GroupMember groupMember = GroupMember.builder()
                 .group(group)
                 .role(GroupMember.Role.LEADER)
-//                .member(member)
+                .member(member)
                 .build();
         groupMemberRepository.save(groupMember);
 
@@ -73,9 +72,20 @@ public class GroupService {
                 build();
     }
 
-//    public List<GroupListResponse> getGroups() {
-//        Member member = memberService.getLoginedMemnber();
-//
-//
-//    }
+    public List<GroupListResponse> getGroups() {
+        Member member = memberService.getLoginedMemnber();
+
+        // 해당 멤버가 속한 모든 그룹 멤버십 정보 조회
+        List<GroupMember> groupMembers = groupMemberRepository.findByMemberMemberId(member.getMemberId());
+
+        // DTO 변환
+        return groupMembers.stream()
+                .map(gm -> new GroupListResponse(
+                        gm.getGroup().getGroupId(),
+                        gm.getGroup().getName(),
+                        gm.getGroup().getCategory().name(),
+                        gm.getRole().name()
+                ))
+                .toList();
+    }
 }
