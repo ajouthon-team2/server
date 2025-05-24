@@ -18,4 +18,17 @@ public class AuthController {
     public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest request) {
         return ResponseEntity.ok(authService.signIn(request));
     }
+
+
+    private final MemberService memberService;
+
+    @PostMapping("/signUp")
+    public ResponseEntity<?> signUp(@RequestBody SignUpRequest request) {
+        try {
+            memberService.signUp(request);
+            return ResponseEntity.ok().body(Map.of("message", "회원가입 성공"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
 }
