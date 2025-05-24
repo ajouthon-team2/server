@@ -9,4 +9,8 @@ public class TokenResponse {
     private String message;
     private String accessToken;
     private String refreshToken;
+
+    public static TokenResponse of(String accessToken, String refreshToken) {
+        return new TokenResponse("재발급 성공", accessToken, refreshToken);
+    }
 }

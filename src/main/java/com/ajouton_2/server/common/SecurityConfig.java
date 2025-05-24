@@ -34,27 +34,28 @@ public class SecurityConfig {
 
                 // request 인증, 인가 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/*").permitAll() // 인증 없이 접근 가능
+                        .requestMatchers("/auth/*", "/token/re-issue").permitAll()  // 인증 없이 접근 가능
                         .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 );
 
         return http.build();
     }
 
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(
-                "http://localhost:3000"));
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:3000")); // ← 변경 포인트!
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setExposedHeaders(List.of("Authorization")); // Authorization 헤더 노출
+        configuration.setExposedHeaders(List.of("Authorization"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
