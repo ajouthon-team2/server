@@ -1,6 +1,6 @@
 package com.ajouton_2.server.domain.member;
 
-import com.ajouton_2.server.domain.group.Group;
+import com.ajouton_2.server.domain.groupmember.GroupMember;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -33,7 +33,7 @@ public class Member {
     private String department;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Group> groups = new ArrayList<>();
+    private List<GroupMember> groupmembers = new ArrayList<>();
 
     @Builder
     public Member(String name, String studentId, String phoneNumber, String department) {
