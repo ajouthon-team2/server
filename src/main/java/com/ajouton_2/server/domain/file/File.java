@@ -33,7 +33,6 @@ public class File {
     private LocalDateTime createdAt;
 
     @Builder
-
     public File(Post post, String fileName, String fileUrl, LocalDateTime createdAt) {
         this.post = post;
         this.fileName = fileName;

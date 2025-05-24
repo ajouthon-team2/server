@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAX2DZEUZBMXPZ3EPR
+      secret-key: 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
+    region:
+      static: ap-northeast-2z
+    stack:
+      auto: false
+    s3:
+      bucket: onrank-file-dev-bucket
