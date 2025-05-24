@@ -1,6 +1,6 @@
 package com.ajouton_2.server.api.controller;
 
-import com.ajouton_2.server.api.dto.TokenResponse;
+import com.ajouton_2.server.api.dto.auth.TokenResponse;
 import com.ajouton_2.server.api.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

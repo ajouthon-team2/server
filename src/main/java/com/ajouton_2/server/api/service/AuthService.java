@@ -1,7 +1,7 @@
 package com.ajouton_2.server.api.service;
 
-import com.ajouton_2.server.api.dto.SignInRequest;
-import com.ajouton_2.server.api.dto.TokenResponse;
+import com.ajouton_2.server.api.dto.auth.SignInRequest;
+import com.ajouton_2.server.api.dto.auth.TokenResponse;
 import com.ajouton_2.server.common.JwtUtil;
 import com.ajouton_2.server.domain.member.Member;
 import com.ajouton_2.server.domain.member.MemberJpaRepository;

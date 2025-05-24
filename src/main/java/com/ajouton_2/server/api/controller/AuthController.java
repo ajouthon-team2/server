@@ -1,10 +1,10 @@
 package com.ajouton_2.server.api.controller;
 
-import com.ajouton_2.server.api.dto.SignInRequest;
-import com.ajouton_2.server.api.dto.TokenResponse;
+import com.ajouton_2.server.api.dto.auth.SignInRequest;
+import com.ajouton_2.server.api.dto.auth.TokenResponse;
 import com.ajouton_2.server.api.service.AuthService;
 import com.ajouton_2.server.api.service.MemberService;
-import com.ajouton_2.server.api.dto.SignUpRequest;
+import com.ajouton_2.server.api.dto.auth.SignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
