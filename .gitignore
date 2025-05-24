@@ -38,5 +38,4 @@ out/
 
 ### env ###
 .env
-newspring-key.pem
-server/src/main/resources/application-cloud.yml
+newspring-key.pesrc/main/resources/application-cloud.yml
