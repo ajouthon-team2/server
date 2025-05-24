@@ -10,4 +10,6 @@ public interface ParticipantJpaRepository extends JpaRepository<Participant, Lon
     void deleteAllByPost(Post post);
 
     List<Participant> findAllByPost(Post post);
+
+    long countByPost(Post post);
 }

@@ -8,6 +8,7 @@ import com.ajouton_2.server.domain.post.Post;
 import com.ajouton_2.server.domain.post.PostJpaRepository;
 import com.ajouton_2.server.domain.file.File;
 import com.ajouton_2.server.domain.file.FileJpaRepository;
+import com.ajouton_2.server.domain.participant.ParticipantJpaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class ReportService {
 
     private final PostJpaRepository postRepository;
     private final FileJpaRepository fileRepository;
+    private final ParticipantJpaRepository participantRepository; // ✅ 추가됨
 
     public void generateReport(List<Long> postIds) throws Exception {
         List<Post> posts = postRepository.findAllById(postIds);
@@ -47,10 +49,13 @@ public class ReportService {
             item.put("순번", idx++);
             item.put("활동일시", post.getCreatedAt().toLocalDate().toString());
             item.put("활동내용", post.getContent());
-            item.put("활동인원", "6명");
+
+            // ✅ 실제 참여자 수 계산
+            long participantCount = participantRepository.countByPost(post);
+            item.put("활동인원", participantCount + "명");
+
             item.put("활동자체평가", "기록 우수");
 
-            // 🔁 postId → Post 객체 그대로 전달
             List<File> postFiles = fileRepository.findAllByPost(post);
             item.put("활동증빙사진1", postFiles.size() > 0 ? postFiles.get(0).getFileUrl() : null);
             item.put("활동증빙사진2", postFiles.size() > 1 ? postFiles.get(1).getFileUrl() : null);
