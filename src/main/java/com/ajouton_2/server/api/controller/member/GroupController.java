@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/groupㄴ")
+@RequestMapping("/group")
 public class GroupController {
 
     private final GroupService groupService;
@@ -29,7 +29,7 @@ public class GroupController {
     @PostMapping("/signIn")
     public ResponseEntity<Void> signInGroup(
             @RequestBody GroupSignInRequest request) {
-        groupMemberService.signInToGroup(request);  // 반환 없음
+        groupMemberService.signInToGroup(request);
         return ResponseEntity.ok().build();
     }
 
