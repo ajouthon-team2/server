@@ -1,7 +1,10 @@
 package com.ajouton_2.server.domain.groupmember;
 
+import com.ajouton_2.server.domain.group.Group;
+import com.ajouton_2.server.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,5 +32,12 @@ public class GroupMember {
 
     public enum Role {
         LEADER, MEMBER
+    }
+
+    @Builder
+    public GroupMember(Group group, Role role, Member member) {
+        this.group = group;
+        this.role = role;
+        this.member = member;
     }
 }

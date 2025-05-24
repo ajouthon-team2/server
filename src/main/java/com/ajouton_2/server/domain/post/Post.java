@@ -1,9 +1,13 @@
 package com.ajouton_2.server.domain.post;
 
+import com.ajouton_2.server.domain.group.Group;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,4 +31,13 @@ public class Post {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Builder
+
+    public Post(Group group, String title, String content, LocalDateTime createdAt) {
+        this.group = group;
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+    }
 }

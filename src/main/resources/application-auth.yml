@@ -1,0 +1,8 @@
+jwt:
+  secret: "DLWNDUDRLAGNLFODLACKSDNRHKRALSTJGHKDDBWLDKAGHZL"
+  access:
+    expirationMs: 1800000 #30분
+  refresh:
+    expirationMs: 7200000 #2시간
+    expirationSec: 7200 #2시간
+    path: /auth/reissue

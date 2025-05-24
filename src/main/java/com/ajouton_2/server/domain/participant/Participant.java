@@ -1,7 +1,10 @@
 package com.ajouton_2.server.domain.participant;
 
+import com.ajouton_2.server.domain.groupmember.GroupMember;
+import com.ajouton_2.server.domain.post.Post;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +25,10 @@ public class Participant {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+
+    @Builder
+    public Participant(GroupMember groupMember, Post post) {
+        this.groupMember = groupMember;
+        this.post = post;
+    }
 }

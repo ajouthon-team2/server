@@ -1,9 +1,14 @@
 package com.ajouton_2.server.domain.member;
 
+import com.ajouton_2.server.domain.group.Group;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,4 +31,15 @@ public class Member {
 
     @Column(nullable = false)
     private String department;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Group> groups = new ArrayList<>();
+
+    @Builder
+    public Member(String name, String studentId, String phoneNumber, String department) {
+        this.name = name;
+        this.studentId = studentId;
+        this.phoneNumber = phoneNumber;
+        this.department = department;
+    }
 }
