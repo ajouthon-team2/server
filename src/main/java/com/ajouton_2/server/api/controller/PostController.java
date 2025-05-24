@@ -2,6 +2,7 @@ package com.ajouton_2.server.api.controller;
 
 import com.ajouton_2.server.api.dto.file.PresignedUrlResponse;
 import com.ajouton_2.server.api.dto.post.PostRequest;
+import com.ajouton_2.server.api.dto.post.PostResponse;
 import com.ajouton_2.server.api.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +12,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/group/{groupId}/posts")
+@RequestMapping("/groups/{groupId}/posts")
 public class PostController {
 
     private final PostService postService;
+
+    @GetMapping
+    public ResponseEntity<List<PostResponse>>
 
     @PostMapping
     public ResponseEntity<List<PresignedUrlResponse>> createPost(

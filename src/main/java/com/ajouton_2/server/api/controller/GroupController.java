@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/group")
+@RequestMapping("/groups")
 public class GroupController {
 
     private final GroupService groupService;
@@ -26,7 +26,7 @@ public class GroupController {
         return ResponseEntity.ok(groupService.createGroup(request));
     }
 
-    @PostMapping("/signIn")
+    @PostMapping("/signin")
     public ResponseEntity<Void> signInGroup(
             @RequestBody GroupSignInRequest request) {
         groupMemberService.signInToGroup(request);
