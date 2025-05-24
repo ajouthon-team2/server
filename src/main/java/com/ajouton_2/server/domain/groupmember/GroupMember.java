@@ -16,7 +16,7 @@ public class GroupMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberGroupId;
+    private Long groupMemberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)

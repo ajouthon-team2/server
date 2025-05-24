@@ -132,7 +132,7 @@ public class GroupService {
 
         return groupMembers.stream()
                 .map(gm -> new GroupMemberResponse(
-                        gm.getMember().getMemberId(),
+                        gm.getGroupMemberId(),
                         gm.getMember().getName(),
                         gm.getMember().getEmail(),
                         gm.getRole().name()

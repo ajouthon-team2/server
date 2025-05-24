@@ -33,7 +33,6 @@ public class Post {
     private LocalDateTime createdAt;
 
     @Builder
-
     public Post(Group group, String title, String content, LocalDateTime createdAt) {
         this.group = group;
         this.title = title;
