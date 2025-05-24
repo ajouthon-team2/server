@@ -14,7 +14,7 @@ public class ReportDownloadController {
 
     @GetMapping("/download")
     public ResponseEntity<?> downloadReport() {
-        String filePath = "python-report/운동크루보고서.docx";
+        String filePath = "운동크루보고서.docx";  // 컨테이너 내 /app/운동크루보고서.docx
         File file = new File(filePath);
 
         if (!file.exists()) {

@@ -6,6 +6,8 @@ import com.ajouton_2.server.domain.groupmember.GroupMember.Role;
 import com.ajouton_2.server.domain.member.Member;
 import com.ajouton_2.server.domain.post.Post;
 import com.ajouton_2.server.domain.post.PostJpaRepository;
+import com.ajouton_2.server.domain.file.File;
+import com.ajouton_2.server.domain.file.FileJpaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,10 +20,13 @@ import java.util.*;
 public class ReportService {
 
     private final PostJpaRepository postRepository;
+    private final FileJpaRepository fileRepository;
 
     public void generateReport(List<Long> postIds) throws Exception {
         List<Post> posts = postRepository.findAllById(postIds);
-        if (posts.isEmpty()) throw new IllegalArgumentException("해당 postIds에 대한 게시물이 없습니다.");
+        if (posts.isEmpty()) {
+            throw new IllegalArgumentException("해당 postIds에 대한 게시물이 없습니다.");
+        }
 
         Group group = posts.get(0).getGroup();
 
@@ -44,8 +49,12 @@ public class ReportService {
             item.put("활동내용", post.getContent());
             item.put("활동인원", "6명");
             item.put("활동자체평가", "기록 우수");
-            item.put("활동증빙사진1", "사진1.jpg");
-            item.put("활동증빙사진2", "사진2.jpg");
+
+            // 🔁 postId → Post 객체 그대로 전달
+            List<File> postFiles = fileRepository.findAllByPost(post);
+            item.put("활동증빙사진1", postFiles.size() > 0 ? postFiles.get(0).getFileUrl() : null);
+            item.put("활동증빙사진2", postFiles.size() > 1 ? postFiles.get(1).getFileUrl() : null);
+
             활동목록.add(item);
         }
 
@@ -73,7 +82,6 @@ public class ReportService {
             writer.flush();
         }
 
-        // ✅ stdout 로그 출력
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -81,7 +89,6 @@ public class ReportService {
             }
         }
 
-        // ✅ stderr 로그 출력 (에러 원인 파악용)
         try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
             String line;
             while ((line = errorReader.readLine()) != null) {
