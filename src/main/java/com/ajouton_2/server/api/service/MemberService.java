@@ -4,7 +4,7 @@ import com.ajouton_2.server.common.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.ajouton_2.server.domain.member.MemberJpaRepository;
-import com.ajouton_2.server.api.dto.SignUpRequest;
+import com.ajouton_2.server.api.dto.auth.SignUpRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.ajouton_2.server.domain.member.Member;
 

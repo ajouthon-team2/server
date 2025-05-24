@@ -1,7 +1,6 @@
 package com.ajouton_2.server.api.controller;
 
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 

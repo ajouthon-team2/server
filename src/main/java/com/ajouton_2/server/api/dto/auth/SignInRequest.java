@@ -1,4 +1,4 @@
-package com.ajouton_2.server.api.dto;
+package com.ajouton_2.server.api.dto.auth;
 
 import lombok.Getter;
 

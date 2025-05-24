@@ -1,6 +1,6 @@
 package com.ajouton_2.server.api.service;
 
-import com.ajouton_2.server.api.dto.TokenResponse;
+import com.ajouton_2.server.api.dto.auth.TokenResponse;
 import com.ajouton_2.server.common.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
