@@ -54,8 +54,8 @@ public class FileService {
         // 파일 저장
         File file = File.builder()
                 .post(post)
-                .fileName("https://onrank-file-dev-bucket.s3.ap-northeast-2.amazonaws.com/" + fileKey)
-                .fileUrl(fileKey)
+                .fileName(fileName)
+                .fileUrl("https://onrank-file-dev-bucket.s3.ap-northeast-2.amazonaws.com/" + fileKey)
                 .createdAt(LocalDateTime.now())
                 .build();
             fileRepository.save(file);
