@@ -41,17 +41,9 @@ public class GroupController {
         return ResponseEntity.ok(groupService.getGroups(authorizationHeader));
     }
 
-//    @GetMapping("/{groupId}")
-//    public ResponseEntity<GroupDetailResponse> getGroup(){}
 
     @GetMapping("/{groupId}/code")
     public ResponseEntity<GroupInviteCodeResponse>getGroupInviteCode(@PathVariable Long groupId){
         return ResponseEntity.status(HttpStatus.OK).body(groupService.getInviteCode(groupId));
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> test(@RequestHeader(value = "Authorization", required = false) String auth) {
-        System.out.println("Authorization 헤더: " + auth);
-        return ResponseEntity.ok("ok");
     }
 }
