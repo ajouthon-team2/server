@@ -1,6 +1,5 @@
 package com.ajouton_2.server.domain.member;
 
-import com.ajouton_2.server.domain.group.Group;
 import com.ajouton_2.server.domain.groupmember.GroupMember;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -21,6 +20,12 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
     @Column(nullable = false)
     private String name;
 
@@ -34,10 +39,13 @@ public class Member {
     private String department;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GroupMember> groupMembers = new ArrayList<>();
+    private List<GroupMember> groupmembers = new ArrayList<>();
 
     @Builder
-    public Member(String name, String studentId, String phoneNumber, String department) {
+    public Member(String email, String password, String name, String studentId,
+                  String phoneNumber, String department) {
+        this.email = email;
+        this.password = password;
         this.name = name;
         this.studentId = studentId;
         this.phoneNumber = phoneNumber;
