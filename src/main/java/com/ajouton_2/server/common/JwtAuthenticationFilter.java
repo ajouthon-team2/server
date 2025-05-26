@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         .orElseThrow(() -> new UsernameNotFoundException("회원을 찾을 수 없습니다."));
 
                 // 스프링 시큐리티 인증 객체 생성
-                UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                UserDetails userDetails = new User(
                         member.getEmail(), "", List.of(new SimpleGrantedAuthority("ROLE_USER"))
                 );
 

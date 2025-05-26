@@ -35,7 +35,7 @@ public class GroupService {
     private final ParticipantJpaRepository participantRepository;
 
     @Transactional
-    public GroupInviteCodeResponse createGroup(GroupAddRequest request, String authorizationHeader) {
+    public GroupInviteCodeResponse createGroup(GroupAddRequest request) {
         String uniqueCode = generateCode();
 
         Group group = Group.builder()
@@ -46,7 +46,7 @@ public class GroupService {
 
         groupRepository.save(group);
 
-        Member member = memberService.getLoginedMember(authorizationHeader);
+        Member member = memberService.getLoginedMember();
 
         GroupMember groupMember = GroupMember.builder()
                 .group(group)
@@ -80,8 +80,8 @@ public class GroupService {
                 build();
     }
 
-    public List<GroupListResponse> getGroups(String authorizationHeader) {
-        Member member = memberService.getLoginedMember(authorizationHeader);
+    public List<GroupListResponse> getGroups() {
+        Member member = memberService.getLoginedMember();
 
         // 해당 멤버가 속한 모든 그룹 멤버십 정보 조회
         List<GroupMember> groupMembers = groupMemberRepository.findByMemberMemberId(member.getMemberId());

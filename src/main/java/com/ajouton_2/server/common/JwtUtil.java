@@ -58,31 +58,4 @@ public class JwtUtil {
                 .getBody();
         return claims.getSubject();
     }
-
-    public String getEmailFromLogin(String authorizationHeader) {
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new IllegalArgumentException("Authorization 헤더가 유효하지 않습니다.");
-        }
-
-        // 1. "Bearer " 제거 → JWT만 추출
-        String token = authorizationHeader.substring(7);
-        log.info("JWT 토큰에서 추출된 사용자 이메일: {}", token);
-        // 2. JWT 파싱 및 검증
-        try {
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-
-            // 3. subject(email) 반환
-            String email = claims.getSubject();
-            log.info("JWT 토큰에서 추출된 사용자 이메일: {}", email);
-            return email;
-
-        } catch (JwtException e) {
-            log.error("JWT 토큰 파싱 실패: {}", e.getMessage());
-            throw new IllegalArgumentException("유효하지 않은 JWT 토큰입니다.");
-        }
-    }
 }
