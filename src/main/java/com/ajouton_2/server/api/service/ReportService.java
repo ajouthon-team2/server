@@ -65,7 +65,7 @@ public class ReportService {
 
         Map<String, Object> data = new HashMap<>();
         data.put("크루명", group.getName());
-        data.put("참가종목", group.getCategory().name());
+        data.put("참가종목", "러닝");
         data.put("크루원수", group.getGroupMembers().size() + "명");
         data.put("크루리더성명", leader.getName());
         data.put("크루리더학번", leader.getStudentId());
