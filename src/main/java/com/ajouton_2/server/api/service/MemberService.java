@@ -16,7 +16,6 @@ public class MemberService {
 
     private final MemberJpaRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
 
     public void signUp(SignUpRequest request) {
         if (memberRepository.existsByEmail(request.getEmail())) {
